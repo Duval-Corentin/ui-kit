@@ -1,0 +1,196 @@
+/* =========================================================================
+   ui-kit — charte graphique commune de la plateforme
+   Règle : les applis utilisent ces variables et classes, jamais de couleurs
+   ou de tailles « en dur ». Un besoin manquant = une évolution de ui-kit.
+   ========================================================================= */
+
+/* ---------- 1. Jetons de design ---------- */
+:root {
+  /* Couleurs */
+  --ui-color-bg: #f7f7f5;
+  --ui-color-surface: #ffffff;
+  --ui-color-text: #1c2230;
+  --ui-color-muted: #5b6372;
+  --ui-color-border: #dfe1e6;
+  --ui-color-accent: #2d5bd7;
+  --ui-color-accent-hover: #2149b5;
+  --ui-color-accent-text: #ffffff;
+  --ui-color-info: #2d5bd7;
+  --ui-color-success: #1f7a4d;
+  --ui-color-warning: #9a6200;
+  --ui-color-danger: #c0362c;
+  --ui-color-info-bg: #eaf0fd;
+  --ui-color-success-bg: #e6f4ec;
+  --ui-color-warning-bg: #fdf3e1;
+  --ui-color-danger-bg: #fbe9e7;
+
+  /* Typographie */
+  --ui-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ui-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --ui-text-sm: 0.875rem;
+  --ui-text-base: 1rem;
+  --ui-text-lg: 1.25rem;
+  --ui-text-xl: 1.75rem;
+  --ui-text-2xl: 2.25rem;
+  --ui-leading: 1.55;
+
+  /* Espacements (échelle de 4px) */
+  --ui-space-1: 0.25rem;
+  --ui-space-2: 0.5rem;
+  --ui-space-3: 0.75rem;
+  --ui-space-4: 1rem;
+  --ui-space-6: 1.5rem;
+  --ui-space-8: 2rem;
+  --ui-space-12: 3rem;
+
+  /* Formes */
+  --ui-radius-sm: 6px;
+  --ui-radius: 10px;
+  --ui-radius-lg: 16px;
+  --ui-shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.08);
+  --ui-container: 72rem;
+  --ui-focus: 0 0 0 3px rgb(45 91 215 / 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ui-color-bg: #12151c;
+    --ui-color-surface: #1b2029;
+    --ui-color-text: #e8eaef;
+    --ui-color-muted: #a0a7b4;
+    --ui-color-border: #2e3542;
+    --ui-color-accent: #6f93f2;
+    --ui-color-accent-hover: #8ba8f5;
+    --ui-color-accent-text: #0e1320;
+    --ui-color-info: #8ba8f5;
+    --ui-color-success: #5cc48f;
+    --ui-color-warning: #e3a94a;
+    --ui-color-danger: #f07a6f;
+    --ui-color-info-bg: #1d2740;
+    --ui-color-success-bg: #16291f;
+    --ui-color-warning-bg: #2d2416;
+    --ui-color-danger-bg: #331b19;
+    --ui-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+    --ui-focus: 0 0 0 3px rgb(111 147 242 / 0.45);
+  }
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body.ui-body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ui-color-bg);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-sans);
+  font-size: var(--ui-text-base);
+  line-height: var(--ui-leading);
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 var(--ui-space-4); }
+h1 { font-size: var(--ui-text-2xl); }
+h2 { font-size: var(--ui-text-xl); }
+h3 { font-size: var(--ui-text-lg); }
+p { margin: 0 0 var(--ui-space-4); }
+a { color: var(--ui-color-accent); }
+a:hover { color: var(--ui-color-accent-hover); }
+code { font-family: var(--ui-font-mono); font-size: 0.9em; }
+
+:focus-visible { outline: none; box-shadow: var(--ui-focus); border-radius: var(--ui-radius-sm); }
+
+.ui-skip {
+  position: absolute; left: -999px; top: var(--ui-space-2);
+  background: var(--ui-color-surface); padding: var(--ui-space-2) var(--ui-space-4);
+}
+.ui-skip:focus { left: var(--ui-space-2); z-index: 10; }
+
+/* ---------- 3. Mise en page ---------- */
+.ui-container { width: 100%; max-width: var(--ui-container); margin: 0 auto; padding: 0 var(--ui-space-6); }
+.ui-main { flex: 1; padding-top: var(--ui-space-8); padding-bottom: var(--ui-space-12); }
+.ui-stack > * + * { margin-top: var(--ui-space-4); }
+.ui-row { display: flex; flex-wrap: wrap; gap: var(--ui-space-3); align-items: center; }
+.ui-grid { display: grid; gap: var(--ui-space-6); grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+
+/* ---------- 4. En-tête, navigation, pied de page ---------- */
+.ui-header { background: var(--ui-color-surface); border-bottom: 1px solid var(--ui-color-border); }
+.ui-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--ui-space-6); min-height: 4rem; flex-wrap: wrap; }
+.ui-brand { display: inline-flex; align-items: center; gap: var(--ui-space-2); font-weight: 700; font-size: var(--ui-text-lg); color: var(--ui-color-text); text-decoration: none; }
+.ui-brand__mark { width: 1.25rem; height: 1.25rem; border-radius: var(--ui-radius-sm); background: var(--ui-color-accent); }
+.ui-nav { display: flex; gap: var(--ui-space-1); flex-wrap: wrap; }
+.ui-nav a { padding: var(--ui-space-2) var(--ui-space-3); border-radius: var(--ui-radius-sm); color: var(--ui-color-muted); text-decoration: none; font-weight: 500; }
+.ui-nav a:hover { color: var(--ui-color-text); background: var(--ui-color-bg); }
+.ui-nav a[aria-current="page"] { color: var(--ui-color-accent); background: var(--ui-color-info-bg); }
+.ui-footer { border-top: 1px solid var(--ui-color-border); padding: var(--ui-space-6) 0; color: var(--ui-color-muted); font-size: var(--ui-text-sm); }
+
+/* ---------- 5. Composants ---------- */
+.ui-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--ui-space-2);
+  padding: var(--ui-space-2) var(--ui-space-4); min-height: 2.5rem;
+  border: 1px solid transparent; border-radius: var(--ui-radius-sm);
+  font: inherit; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.ui-btn--primary { background: var(--ui-color-accent); color: var(--ui-color-accent-text); }
+.ui-btn--primary:hover { background: var(--ui-color-accent-hover); color: var(--ui-color-accent-text); }
+.ui-btn--secondary { background: var(--ui-color-surface); color: var(--ui-color-text); border-color: var(--ui-color-border); }
+.ui-btn--secondary:hover { border-color: var(--ui-color-muted); color: var(--ui-color-text); }
+.ui-btn--danger { background: var(--ui-color-danger); color: #fff; }
+.ui-btn--danger:hover { filter: brightness(0.92); color: #fff; }
+.ui-btn--ghost { background: transparent; color: var(--ui-color-accent); }
+.ui-btn--ghost:hover { background: var(--ui-color-info-bg); }
+.ui-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.ui-card { background: var(--ui-color-surface); border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius); box-shadow: var(--ui-shadow); padding: var(--ui-space-6); }
+.ui-card__title { font-size: var(--ui-text-lg); margin-bottom: var(--ui-space-3); }
+.ui-card__body > :last-child { margin-bottom: 0; }
+
+.ui-alert { padding: var(--ui-space-3) var(--ui-space-4); border-radius: var(--ui-radius-sm); border-left: 4px solid; margin-bottom: var(--ui-space-4); }
+.ui-alert--info { background: var(--ui-color-info-bg); border-color: var(--ui-color-info); }
+.ui-alert--success { background: var(--ui-color-success-bg); border-color: var(--ui-color-success); }
+.ui-alert--warning { background: var(--ui-color-warning-bg); border-color: var(--ui-color-warning); }
+.ui-alert--danger { background: var(--ui-color-danger-bg); border-color: var(--ui-color-danger); }
+
+.ui-badge { display: inline-block; padding: 0 var(--ui-space-2); border-radius: 999px; font-size: var(--ui-text-sm); font-weight: 600; background: var(--ui-color-bg); color: var(--ui-color-muted); border: 1px solid var(--ui-color-border); }
+.ui-badge--info { background: var(--ui-color-info-bg); color: var(--ui-color-info); border-color: transparent; }
+.ui-badge--success { background: var(--ui-color-success-bg); color: var(--ui-color-success); border-color: transparent; }
+.ui-badge--warning { background: var(--ui-color-warning-bg); color: var(--ui-color-warning); border-color: transparent; }
+.ui-badge--danger { background: var(--ui-color-danger-bg); color: var(--ui-color-danger); border-color: transparent; }
+
+/* Formulaires */
+.ui-field { margin-bottom: var(--ui-space-4); }
+.ui-field__label { display: block; font-weight: 600; margin-bottom: var(--ui-space-1); }
+.ui-input {
+  width: 100%; padding: var(--ui-space-2) var(--ui-space-3); min-height: 2.5rem;
+  font: inherit; color: var(--ui-color-text); background: var(--ui-color-surface);
+  border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-sm);
+}
+textarea.ui-input { min-height: 7rem; resize: vertical; }
+.ui-input:focus { border-color: var(--ui-color-accent); }
+.ui-field__help { color: var(--ui-color-muted); font-size: var(--ui-text-sm); margin: var(--ui-space-1) 0 0; }
+.ui-field__error { color: var(--ui-color-danger); font-size: var(--ui-text-sm); margin: var(--ui-space-1) 0 0; }
+.ui-field--error .ui-input { border-color: var(--ui-color-danger); }
+
+/* Tableaux */
+.ui-table { width: 100%; border-collapse: collapse; background: var(--ui-color-surface); border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius); overflow: hidden; }
+.ui-table th, .ui-table td { padding: var(--ui-space-3) var(--ui-space-4); text-align: left; border-bottom: 1px solid var(--ui-color-border); }
+.ui-table th { font-size: var(--ui-text-sm); color: var(--ui-color-muted); font-weight: 600; background: var(--ui-color-bg); }
+.ui-table tr:last-child td { border-bottom: 0; }
+.ui-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* État vide */
+.ui-empty { text-align: center; padding: var(--ui-space-12) var(--ui-space-6); border: 1px dashed var(--ui-color-border); border-radius: var(--ui-radius); }
+.ui-empty__title { font-weight: 700; font-size: var(--ui-text-lg); }
+.ui-empty__text { color: var(--ui-color-muted); }
+
+/* Utilitaires */
+.ui-muted { color: var(--ui-color-muted); }
+.ui-visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

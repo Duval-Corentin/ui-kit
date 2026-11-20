@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ ui.app_name }}{% endblock %}</title>
+  <link rel="icon" href="{{ ui.static }}/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ ui.static }}/ui-kit.css?v={{ ui.version }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="ui-body">
+  <a class="ui-skip" href="#contenu">Aller au contenu</a>
+
+  <header class="ui-header">
+    <div class="ui-container ui-header__inner">
+      <a class="ui-brand" href="/">
+        <span class="ui-brand__mark" aria-hidden="true"></span>
+        {{ ui.app_name }}
+      </a>
+      <nav class="ui-nav" aria-label="Navigation principale">
+        {% block nav %}
+          {% for item in ui.nav %}
+            <a href="{{ item.href }}"{% if request is defined and request.url.path == item.href %} aria-current="page"{% endif %}>{{ item.label }}</a>
+          {% endfor %}
+        {% endblock %}
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu" class="ui-container ui-main">
+    {% block flash %}{% endblock %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="ui-footer">
+    <div class="ui-container">
+      {% block footer %}{{ ui.app_name }}{% endblock %}
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

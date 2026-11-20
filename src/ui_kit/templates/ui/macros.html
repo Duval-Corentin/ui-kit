@@ -1,0 +1,58 @@
+{#
+  Composants de la charte. Dans un gabarit d'appli :
+    {% import "ui/macros.html" as ui_c %}
+    {{ ui_c.button("Enregistrer", type="submit") }}
+#}
+
+{# Bouton ou lien-bouton. variant : primary | secondary | danger | ghost #}
+{% macro button(label, variant="primary", type="button", href=None, name=None, value=None) -%}
+  {%- if href -%}
+    <a class="ui-btn ui-btn--{{ variant }}" href="{{ href }}">{{ label }}</a>
+  {%- else -%}
+    <button class="ui-btn ui-btn--{{ variant }}" type="{{ type }}"{% if name %} name="{{ name }}"{% endif %}{% if value %} value="{{ value }}"{% endif %}>{{ label }}</button>
+  {%- endif -%}
+{%- endmacro %}
+
+{# Carte. Utilisation : {% call ui_c.card("Titre") %}contenu{% endcall %} #}
+{% macro card(title=None) -%}
+  <section class="ui-card">
+    {% if title %}<h2 class="ui-card__title">{{ title }}</h2>{% endif %}
+    <div class="ui-card__body">{{ caller() }}</div>
+  </section>
+{%- endmacro %}
+
+{# Message. kind : info | success | warning | danger #}
+{% macro alert(message, kind="info") -%}
+  <div class="ui-alert ui-alert--{{ kind }}" role="{{ 'alert' if kind == 'danger' else 'status' }}">{{ message }}</div>
+{%- endmacro %}
+
+{# Champ de formulaire avec libellé, aide et erreur. #}
+{% macro field(name, label, type="text", value="", required=False, help=None, error=None) -%}
+  <div class="ui-field{% if error %} ui-field--error{% endif %}">
+    <label class="ui-field__label" for="f-{{ name }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+    {% if type == "textarea" %}
+      <textarea class="ui-input" id="f-{{ name }}" name="{{ name }}"{% if required %} required{% endif %}{% if help or error %} aria-describedby="f-{{ name }}-desc"{% endif %}>{{ value }}</textarea>
+    {% else %}
+      <input class="ui-input" id="f-{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ value }}"{% if required %} required{% endif %}{% if help or error %} aria-describedby="f-{{ name }}-desc"{% endif %}>
+    {% endif %}
+    {% if error %}
+      <p class="ui-field__error" id="f-{{ name }}-desc">{{ error }}</p>
+    {% elif help %}
+      <p class="ui-field__help" id="f-{{ name }}-desc">{{ help }}</p>
+    {% endif %}
+  </div>
+{%- endmacro %}
+
+{# Pastille. kind : neutral | info | success | warning | danger #}
+{% macro badge(label, kind="neutral") -%}
+  <span class="ui-badge ui-badge--{{ kind }}">{{ label }}</span>
+{%- endmacro %}
+
+{# État vide : titre, explication et action facultative. #}
+{% macro empty(title, text=None, action_label=None, action_href=None) -%}
+  <div class="ui-empty">
+    <p class="ui-empty__title">{{ title }}</p>
+    {% if text %}<p class="ui-empty__text">{{ text }}</p>{% endif %}
+    {% if action_label and action_href %}{{ button(action_label, href=action_href) }}{% endif %}
+  </div>
+{%- endmacro %}
