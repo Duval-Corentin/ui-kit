@@ -10,7 +10,7 @@ Dans le `pyproject.toml` de l'appli (c'est déjà fait par `app-template`) :
 dependencies = ["ui-kit @ git+https://github.com/Duval-Corentin/ui-kit@v0.1.0"]
 ```
 
-Le dépôt est **privé**. Chaque appli l'installe avec le secret `UI_KIT_TOKEN` (jeton GitHub en lecture seule sur ce seul dépôt), dans sa CI, à la construction de son image Docker et pour Dependabot. En local, `gh auth setup-git` suffit.
+Le dépôt doit être **public** pour que l'installation fonctionne sans jeton, dans la CI comme dans Docker. Il ne contient que du CSS et des gabarits.
 
 ## Utilisation
 
