@@ -54,6 +54,39 @@ def test_static_files_are_served(client: TestClient) -> None:
 
 def test_demo_page_renders_every_component(client: TestClient) -> None:
     html = client.get(ui_kit.DEMO_URL).text
-    components = ("ui-btn", "ui-card", "ui-alert", "ui-field", "ui-table", "ui-badge", "ui-empty")
+    components = (
+        "ui-btn",
+        "ui-card",
+        "ui-alert",
+        "ui-field",
+        "ui-table",
+        "ui-badge",
+        "ui-empty",
+        "ui-data",
+        "ui-compact",
+    )
     for css_class in components:
         assert css_class in html
+
+
+def test_data_macro_renders_label_value_and_unit(tmp_path: Path) -> None:
+    (tmp_path / "donnees.html").write_text(
+        '{% import "ui/macros.html" as ui_c %}'
+        '{{ ui_c.data([("Plafond", "2 150", "m"), ("Début", "11 h 30")], layout="list") }}',
+        encoding="utf-8",
+    )
+    app = Starlette()
+    templates = setup(app, tmp_path, app_name="Démo", demo=False)
+    html = templates.get_template("donnees.html").render()
+    assert 'class="ui-data ui-data--list"' in html
+    assert "<dt>Plafond</dt>" in html
+    assert '<span class="ui-data__value">2 150</span><span class="ui-data__unit">m</span>' in html
+    assert '<span class="ui-data__value">11 h 30</span></dd>' in html
+
+
+def test_font_and_mark_are_served(client: TestClient) -> None:
+    for path in ("fonts/atkinson-hyperlegible-next.woff2", "fonts/OFL.txt", "mark.svg"):
+        assert client.get(f"/_ui/{path}").status_code == 200, path
+    css = client.get("/_ui/ui-kit.css").text
+    assert '[data-theme="dark"]' in css
+    assert "--ui-color-active" in css

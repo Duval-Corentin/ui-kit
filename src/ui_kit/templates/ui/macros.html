@@ -48,6 +48,21 @@
   <span class="ui-badge ui-badge--{{ kind }}">{{ label }}</span>
 {%- endmacro %}
 
+{# Données : libellé, valeur et unité facultative.
+   items : liste de (libellé, valeur) ou (libellé, valeur, unité).
+   layout : grid (valeurs mises en avant) | list (libellé à gauche, valeur à droite).
+   {{ ui_c.data([("Plafond", "2 150", "m"), ("Thermique", "2,4", "m/s")]) }} #}
+{% macro data(items, layout="grid") -%}
+  <dl class="ui-data{% if layout == 'list' %} ui-data--list{% endif %}">
+    {%- for item in items %}
+    <div class="ui-data__item">
+      <dt>{{ item[0] }}</dt>
+      <dd><span class="ui-data__value">{{ item[1] }}</span>{% if item|length > 2 and item[2] %}<span class="ui-data__unit">{{ item[2] }}</span>{% endif %}</dd>
+    </div>
+    {%- endfor %}
+  </dl>
+{%- endmacro %}
+
 {# État vide : titre, explication et action facultative. #}
 {% macro empty(title, text=None, action_label=None, action_href=None) -%}
   <div class="ui-empty">
