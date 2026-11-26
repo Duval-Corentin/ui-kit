@@ -7,7 +7,7 @@ Charte graphique commune à toutes les applis de la plateforme : variables CSS, 
 Dans le `pyproject.toml` de l'appli (c'est déjà fait par `app-template`) :
 
 ```toml
-dependencies = ["ui-kit @ git+https://github.com/Duval-Corentin/ui-kit@v0.3.0"]
+dependencies = ["ui-kit @ git+https://github.com/Duval-Corentin/ui-kit@v0.3.1"]
 ```
 
 Le dépôt doit être **public** pour que l'installation fonctionne sans jeton, dans la CI comme dans Docker. Il ne contient que du CSS et des gabarits.

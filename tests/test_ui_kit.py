@@ -170,3 +170,12 @@ def test_application_macros(tmp_path: Path) -> None:
     assert '<span aria-current="true">11</span>' in html
     assert 'style="--swatch: #f3c27a"' in html
     assert '<progress class="ui-progress" aria-label="Préparation" max="100"></progress>' in html
+
+
+def test_templates_ignored_by_components(client: TestClient) -> None:
+    """Les <template> d'Alpine ne comptent ni comme graduation, ni comme premier ou dernier."""
+    css = client.get("/_ui/ui-kit.css").text
+    assert "template { display: none !important; }" in css
+    assert ".ui-range__ticks > :not(template)" in css and ".ui-range__ticks > *" not in css
+    assert ".ui-legend__ticks > :nth-last-child(1 of :not(template))" in css
+    assert ".ui-main p { max-width: var(--ui-measure); }" in css

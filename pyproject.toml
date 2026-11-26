@@ -1,6 +1,6 @@
 [project]
 name = "ui-kit"
-version = "0.3.0"
+version = "0.3.1"
 description = "Charte graphique commune de la plateforme (CSS + gabarits Jinja)"
 readme = "README.md"
 requires-python = ">=3.12"
