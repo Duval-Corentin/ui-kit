@@ -20,11 +20,24 @@
   ]) }}
 {% endcall %}
 
+<h2>Instruments</h2>
+{% call ui_c.card("Chambéry, 14 h") %}
+  <div class="ui-grid">
+    {{ ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5,
+                  zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")]) }}
+    {{ ui_c.gauge("Thermique moyen", 2.4, "m/s", max=5,
+                  zones=[(0, 1, "warning"), (1, 5, "success")]) }}
+    {{ ui_c.gauge("Plafond", 2150, "m", max=3500, step=500) }}
+  </div>
+  <p class="ui-muted" style="margin-top: var(--ui-space-4)">Vent à 1 500 m : {{ ui_c.wind(250, 15) }} ; à 3 000 m : {{ ui_c.wind(280, 24, gust=32) }}</p>
+{% endcall %}
+
 <div class="ui-grid" style="margin-top: var(--ui-space-4)">
   {% call ui_c.card("LFLE, Chambéry") %}
     {{ ui_c.data([
       ("QNH", "1 018", "hPa"),
       ("Température", "14", "°C"),
+      ("Vent", ui_c.wind(320, 8)),
       ("Visibilité", "10", "km"),
       ("Nébulosité", "FEW 4 500 ft"),
     ], layout="list") }}
@@ -58,11 +71,11 @@
 
 <h2>Tableau</h2>
 <table class="ui-table">
-  <thead><tr><th>Terrain</th><th>Niveau</th><th class="num">Plafond (m)</th><th class="num">Thermique (m/s)</th></tr></thead>
+  <thead><tr><th>Terrain</th><th>Niveau</th><th class="num">Plafond (m)</th><th class="num">Thermique (m/s)</th><th>Vent</th></tr></thead>
   <tbody>
-    <tr><td>Saint-Auban</td><td>{{ ui_c.badge("Bonne journée", "success") }}</td><td class="num">2 650</td><td class="num">3,1</td></tr>
-    <tr aria-selected="true"><td>Chambéry</td><td>{{ ui_c.badge("Volable", "success") }}</td><td class="num">2 150</td><td class="num">2,4</td></tr>
-    <tr><td>Montagne-Noire</td><td>{{ ui_c.badge("Faible", "warning") }}</td><td class="num">1 100</td><td class="num">0,9</td></tr>
+    <tr><td>Saint-Auban</td><td>{{ ui_c.badge("Bonne journée", "success") }}</td><td class="num">2 650</td><td class="num">3,1</td><td>{{ ui_c.wind(310, 12) }}</td></tr>
+    <tr aria-selected="true"><td>Chambéry</td><td>{{ ui_c.badge("Volable", "success") }}</td><td class="num">2 150</td><td class="num">2,4</td><td>{{ ui_c.wind(250, 15) }}</td></tr>
+    <tr><td>Montagne-Noire</td><td>{{ ui_c.badge("Faible", "warning") }}</td><td class="num">1 100</td><td class="num">0,9</td><td>{{ ui_c.wind(130, 22, gust=35) }}</td></tr>
   </tbody>
 </table>
 

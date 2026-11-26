@@ -41,7 +41,7 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 
 - `static/ui-kit.css` : jetons de design (couleurs, typographie, espacements, avec thème sombre automatique) et composants `ui-*`.
 - `templates/ui/base.html` : structure de page (en-tête, navigation, contenu, pied de page). Blocs : `title`, `head`, `nav`, `flash`, `content`, `footer`, `scripts`.
-- `templates/ui/macros.html` : `button`, `card`, `alert`, `field`, `badge`, `data`, `empty`.
+- `templates/ui/macros.html` : `button`, `card`, `alert`, `field`, `badge`, `data`, `gauge`, `wind`, `empty`.
 - `static/fonts/` : police IBM Plex Sans (licence OFL).
 
 ## Repères de la charte
@@ -49,6 +49,7 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 - Sobre et dense : panneaux plats, un seul rayon, une échelle de texte resserrée.
 - Le **magenta** (`--ui-color-active`) signale uniquement ce qui est actif : page courante, ligne sélectionnée (`<tr aria-selected="true">`), focus. Ne pas l'utiliser pour décorer.
 - Valeurs chiffrées : `ui_c.data([("Plafond", "2 150", "m")])`, ou la classe `num` dans les tableaux.
+- Instruments : `ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5, zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")])` et `ui_c.wind(250, 15, gust=25)`.
 - Écrans riches : ajouter `ui-compact` sur un conteneur.
 - Thème : celui du système par défaut ; `<html data-theme="dark">` ou `"light"` pour l'imposer.
 

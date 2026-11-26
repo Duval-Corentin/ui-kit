@@ -11,6 +11,11 @@ Nouvelle identité, sobre et dense, inspirée de l'aéronautique. Aucune classe 
 - Panneaux plats (sans ombre), un seul rayon de 4 px ; en-tête de 3 rem, page courante soulignée, navigation qui défile sur petit écran.
 - Nouveau composant `ui-data` et macro `data` : libellé, valeur, unité, en grille ou en liste.
 - Nouvelle classe `ui-compact` : espacements et hauteur des contrôles réduits.
+- Nouveaux instruments, avec les conventions du cockpit :
+  - `ui-gauge` et macro `gauge` : jauge graduée à arcs colorés et index, lue comme un anémomètre (`role="meter"`) ;
+  - `ui-wind` et macro `wind` : flèche de vent orientée selon la convention météo, « 250° / 15 kt », rafales en `G`.
+- Nombres à la française dans les macros (virgule décimale, espace fine pour les milliers).
+- État vide illustré par la silhouette de planeur.
 - Choix du thème possible avec `<html data-theme="light|dark">` (sinon celui du système).
 - Nouvelles variables : `--ui-color-surface-2`, `--ui-color-border-strong`, `--ui-text-xs`, `--ui-measure`, `--ui-control-height`, `--ui-header-height`.
 - Pictogramme planeur dans l'en-tête et l'icône d'onglet.

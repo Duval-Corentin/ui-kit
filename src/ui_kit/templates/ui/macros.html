@@ -63,6 +63,43 @@
   </dl>
 {%- endmacro %}
 
+{# Nombre à la française : 2.4 -> « 2,4 », 3000 -> « 3 000 » (espace fine insécable). #}
+{% macro _num(n) -%}{{ "{:,g}".format(n)|replace(",", " ")|replace(".", ",") }}{%- endmacro %}
+
+{# Jauge à arcs, lue comme un anémomètre.
+   zones : liste de (début, fin, type), type : success | warning | danger | info.
+   display : texte affiché à la place de la valeur (sinon la valeur, avec une virgule).
+   {{ ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5,
+                 zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")]) }} #}
+{% macro gauge(label, value, unit=None, min=0, max=5, step=1, zones=(), display=None) -%}
+  {%- set span = max - min -%}
+  {%- set pos = [[(value - min) / span * 100, 0]|max, 100]|min -%}
+  {%- set steps = (span / step)|round(0, "floor")|int -%}
+  {%- set text = display if display is not none else _num(value) -%}
+  <div class="ui-gauge">
+    <div class="ui-gauge__head"><span class="ui-gauge__label">{{ label }}</span><span class="ui-data__value">{{ text }}</span>{% if unit %}<span class="ui-data__unit">{{ unit }}</span>{% endif %}</div>
+    <div class="ui-gauge__scale" style="--ui-gauge-pos: {{ '%.2f'|format(pos) }}%" role="meter" aria-label="{{ label }}" aria-valuemin="{{ min }}" aria-valuemax="{{ max }}" aria-valuenow="{{ value }}" aria-valuetext="{{ text }}{% if unit %} {{ unit }}{% endif %}">
+      {%- for z in zones %}
+      <span class="ui-gauge__arc ui-gauge__arc--{{ z[2] }}" style="--from: {{ '%.2f'|format((z[0] - min) / span * 100) }}%; --to: {{ '%.2f'|format((z[1] - min) / span * 100) }}%"></span>
+      {%- endfor %}
+      {%- for i in range(steps + 1) %}<span class="ui-gauge__tick" style="--at: {{ '%.2f'|format(i / steps * 100) }}%"></span>{% endfor %}
+      <span class="ui-gauge__needle"></span>
+    </div>
+    <div class="ui-gauge__ticks" aria-hidden="true">
+      {%- for i in range(steps + 1) %}<span style="left: {{ '%.2f'|format(i / steps * 100) }}%">{{ _num(min + i * step) }}</span>{% endfor -%}
+    </div>
+  </div>
+{%- endmacro %}
+
+{# Vent : flèche selon la convention météo (elle part d'où vient le vent), direction et force.
+   {{ ui_c.wind(250, 15) }} -> flèche + « 250° / 15 kt » ; gust pour les rafales. #}
+{% macro wind(direction, speed, unit="kt", gust=None) -%}
+  <span class="ui-wind" role="img" aria-label="Vent du {{ direction }}°, {{ speed }} {{ unit }}{% if gust %}, rafales {{ gust }} {{ unit }}{% endif %}">
+    <svg class="ui-wind__arrow" style="--ui-wind-dir: {{ direction }}deg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path class="ui-wind__head" d="M12 21l-4.5-6h9z"/></svg>
+    <span aria-hidden="true">{{ "%03d"|format(direction) }}° / {{ speed }}{% if gust %}G{{ gust }}{% endif %} {{ unit }}</span>
+  </span>
+{%- endmacro %}
+
 {# État vide : titre, explication et action facultative. #}
 {% macro empty(title, text=None, action_label=None, action_href=None) -%}
   <div class="ui-empty">
