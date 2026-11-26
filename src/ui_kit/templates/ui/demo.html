@@ -1,60 +1,111 @@
 {% extends "ui/base.html" %}
 {% import "ui/macros.html" as ui_c %}
-{# Page de démonstration de tous les composants. Montée sur /_ui/demo dans chaque appli
-   (voir template d'appli) : pratique pour vérifier le rendu après une mise à jour. #}
+{# Page de démonstration de tous les composants, servie sur /_charte dans chaque appli :
+   pratique pour vérifier le rendu après une mise à jour. #}
 
 {% block title %}Charte · {{ ui.app_name }}{% endblock %}
 
 {% block content %}
 <h1>Charte graphique <span class="ui-badge">v{{ ui.version }}</span></h1>
-<p class="ui-muted">Tous les composants de ui-kit, tels qu'ils s'affichent dans cette appli.</p>
+<p class="ui-muted">Tous les composants de ui-kit, tels qu'ils s'affichent dans cette appli. Le magenta ne sert qu'à signaler ce qui est actif : page courante, ligne sélectionnée, focus clavier.</p>
 
-<div class="ui-grid">
+<h2>Données</h2>
+{% call ui_c.card("Niveau de la journée") %}
+  {{ ui_c.data([
+    ("Plafond", "2 150", "m"),
+    ("Thermique moyen", "2,4", "m/s"),
+    ("Début des thermiques", "11 h 30"),
+    ("Vent à 1 500 m", "250° / 15", "kt"),
+    ("Base des cumulus", "1 900", "m"),
+  ]) }}
+{% endcall %}
+
+<h2>Instruments</h2>
+{% call ui_c.card("Chambéry, 14 h") %}
+  <div class="ui-grid">
+    {{ ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5,
+                  zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")]) }}
+    {{ ui_c.gauge("Thermique moyen", 2.4, "m/s", max=5,
+                  zones=[(0, 1, "warning"), (1, 5, "success")]) }}
+    {{ ui_c.gauge("Plafond", 2150, "m", max=3500, step=500) }}
+  </div>
+  <p class="ui-muted" style="margin-top: var(--ui-space-4)">Vent à 1 500 m : {{ ui_c.wind(250, 15) }} ; à 3 000 m : {{ ui_c.wind(280, 24, gust=32) }}</p>
+{% endcall %}
+
+<div class="ui-grid" style="margin-top: var(--ui-space-4)">
+  {% call ui_c.card("LFLE, Chambéry") %}
+    {{ ui_c.data([
+      ("QNH", "1 018", "hPa"),
+      ("Température", "14", "°C"),
+      ("Vent", ui_c.wind(320, 8)),
+      ("Visibilité", "10", "km"),
+      ("Nébulosité", "FEW 4 500 ft"),
+    ], layout="list") }}
+  {% endcall %}
+
   {% call ui_c.card("Boutons") %}
     <div class="ui-row">
-      {{ ui_c.button("Principal") }}
-      {{ ui_c.button("Secondaire", variant="secondary") }}
-      {{ ui_c.button("Danger", variant="danger") }}
-      {{ ui_c.button("Discret", variant="ghost") }}
+      {{ ui_c.button("Enregistrer") }}
+      {{ ui_c.button("Annuler", variant="secondary") }}
+      {{ ui_c.button("Supprimer", variant="danger") }}
+      {{ ui_c.button("Plus d'options", variant="ghost") }}
     </div>
   {% endcall %}
 
   {% call ui_c.card("Pastilles") %}
     <div class="ui-row">
-      {{ ui_c.badge("Neutre") }}
-      {{ ui_c.badge("Info", "info") }}
-      {{ ui_c.badge("Succès", "success") }}
-      {{ ui_c.badge("Attention", "warning") }}
-      {{ ui_c.badge("Erreur", "danger") }}
+      {{ ui_c.badge("AROME 06 h") }}
+      {{ ui_c.badge("À jour", "info") }}
+      {{ ui_c.badge("Volable", "success") }}
+      {{ ui_c.badge("Orages possibles", "warning") }}
+      {{ ui_c.badge("Zone active", "danger") }}
     </div>
   {% endcall %}
 </div>
 
-<h2 style="margin-top: var(--ui-space-8)">Messages</h2>
-{{ ui_c.alert("Information neutre.") }}
-{{ ui_c.alert("Enregistré.", "success") }}
-{{ ui_c.alert("À vérifier.", "warning") }}
-{{ ui_c.alert("Une erreur est survenue.", "danger") }}
+<h2>Messages</h2>
+{{ ui_c.alert("Le run de 06 h sera disponible vers 09 h 40.") }}
+{{ ui_c.alert("Favori enregistré.", "success") }}
+{{ ui_c.alert("Les données ARPEGE ont plus de 12 heures : la prévision peut être dépassée.", "warning") }}
+{{ ui_c.alert("Téléchargement impossible : Météo-France ne répond pas. Nouvel essai dans 10 minutes.", "danger") }}
+
+<h2>Tableau</h2>
+<table class="ui-table">
+  <thead><tr><th>Terrain</th><th>Niveau</th><th class="num">Plafond (m)</th><th class="num">Thermique (m/s)</th><th>Vent</th></tr></thead>
+  <tbody>
+    <tr><td>Saint-Auban</td><td>{{ ui_c.badge("Bonne journée", "success") }}</td><td class="num">2 650</td><td class="num">3,1</td><td>{{ ui_c.wind(310, 12) }}</td></tr>
+    <tr aria-selected="true"><td>Chambéry</td><td>{{ ui_c.badge("Volable", "success") }}</td><td class="num">2 150</td><td class="num">2,4</td><td>{{ ui_c.wind(250, 15) }}</td></tr>
+    <tr><td>Montagne-Noire</td><td>{{ ui_c.badge("Faible", "warning") }}</td><td class="num">1 100</td><td class="num">0,9</td><td>{{ ui_c.wind(130, 22, gust=35) }}</td></tr>
+  </tbody>
+</table>
+
+<h2>Densité resserrée</h2>
+<p class="ui-muted">Classe <code>ui-compact</code> sur un conteneur : espacements et hauteur des contrôles réduits, pour les écrans riches.</p>
+<div class="ui-compact">
+  <table class="ui-table">
+    <thead><tr><th>Heure</th><th class="num">Plafond (m)</th><th class="num">Thermique (m/s)</th><th class="num">Vent (kt)</th></tr></thead>
+    <tbody>
+      <tr><td>12 h</td><td class="num">1 700</td><td class="num">1,8</td><td class="num">12</td></tr>
+      <tr><td>14 h</td><td class="num">2 150</td><td class="num">2,4</td><td class="num">15</td></tr>
+      <tr><td>16 h</td><td class="num">2 050</td><td class="num">2,0</td><td class="num">17</td></tr>
+    </tbody>
+  </table>
+  <div class="ui-row" style="margin-top: var(--ui-space-3)">
+    {{ ui_c.button("Appliquer") }}
+    {{ ui_c.button("Réinitialiser", variant="secondary") }}
+  </div>
+</div>
 
 <h2>Formulaire</h2>
 {% call ui_c.card() %}
   <form>
-    {{ ui_c.field("nom", "Nom", required=True, help="Tel qu'il apparaîtra.") }}
-    {{ ui_c.field("email", "E-mail", type="email", error="Adresse invalide.") }}
+    {{ ui_c.field("terrain", "Terrain", required=True, help="Code OACI ou nom, par exemple LFLE.") }}
+    {{ ui_c.field("altitude", "Altitude du terrain", type="number", error="Indique une altitude en mètres.") }}
     {{ ui_c.field("note", "Note", type="textarea") }}
-    {{ ui_c.button("Envoyer", type="submit") }}
+    {{ ui_c.button("Enregistrer", type="submit") }}
   </form>
 {% endcall %}
 
-<h2 style="margin-top: var(--ui-space-8)">Tableau</h2>
-<table class="ui-table">
-  <thead><tr><th>Élément</th><th>Statut</th><th class="num">Montant</th></tr></thead>
-  <tbody>
-    <tr><td>Premier</td><td>{{ ui_c.badge("Actif", "success") }}</td><td class="num">1 250,00 €</td></tr>
-    <tr><td>Second</td><td>{{ ui_c.badge("En attente", "warning") }}</td><td class="num">90,50 €</td></tr>
-  </tbody>
-</table>
-
-<h2 style="margin-top: var(--ui-space-8)">État vide</h2>
-{{ ui_c.empty("Rien pour l'instant", "Les éléments créés apparaîtront ici.", "Créer", "#") }}
+<h2>État vide</h2>
+{{ ui_c.empty("Aucun favori", "Ajoute un terrain en favori pour le retrouver ici.", "Ajouter un terrain", "#") }}
 {% endblock %}
