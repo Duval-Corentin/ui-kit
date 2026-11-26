@@ -26,7 +26,7 @@ from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 PACKAGE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = PACKAGE_DIR / "static"
@@ -58,7 +58,8 @@ def setup(
     - sert les fichiers statiques de la charte sous ``/_ui`` ;
     - cherche les gabarits d'abord dans ``templates_dir`` (l'appli), puis dans la charte ;
     - expose la variable ``ui`` à tous les gabarits (nom de l'appli, navigation, version) ;
-    - si ``demo``, ajoute la page ``/_charte`` qui montre tous les composants.
+    - si ``demo``, ajoute la page ``/_charte`` qui montre tous les composants,
+      et ``/_charte/plein-ecran`` pour la mise en page plein écran.
     """
     app.mount(STATIC_URL, StaticFiles(directory=STATIC_DIR), name="ui_static")
 
@@ -84,6 +85,10 @@ def setup(
         async def charte(request: Request):
             return templates.TemplateResponse(request, "ui/demo.html")
 
+        async def charte_plein_ecran(request: Request):
+            return templates.TemplateResponse(request, "ui/demo_app.html")
+
         app.add_route(DEMO_URL, charte, include_in_schema=False)
+        app.add_route(DEMO_URL + "/plein-ecran", charte_plein_ecran, include_in_schema=False)
 
     return templates

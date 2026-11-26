@@ -7,7 +7,7 @@
 
 {% block content %}
 <h1>Charte graphique <span class="ui-badge">v{{ ui.version }}</span></h1>
-<p class="ui-muted">Tous les composants de ui-kit, tels qu'ils s'affichent dans cette appli. Le magenta ne sert qu'à signaler ce qui est actif : page courante, ligne sélectionnée, focus clavier.</p>
+<p class="ui-muted">Tous les composants de ui-kit, tels qu'ils s'affichent dans cette appli. Le cyan ne sert qu'à signaler ce qui est actif : page courante, ligne sélectionnée, focus clavier.</p>
 
 <h2>Données</h2>
 {% call ui_c.card("Niveau de la journée") %}
@@ -96,11 +96,86 @@
   </div>
 </div>
 
+<h2>Composants d'application</h2>
+<p class="ui-muted">Pour les interfaces riches. Voir aussi la <a href="{{ request.url.path.rstrip('/') }}/plein-ecran">mise en page plein écran</a>.</p>
+
+<h3>Onglets</h3>
+<nav class="ui-tabs" role="tablist" aria-label="Vue">
+  <button type="button" role="tab" aria-selected="false">Observation</button>
+  <button type="button" role="tab" aria-selected="true">Situation générale</button>
+  <button type="button" role="tab" aria-selected="false">Détaillé</button>
+  <button type="button" role="tab" aria-selected="false">Manuel</button>
+</nav>
+
+<h3>Choix exclusif</h3>
+<div class="ui-stack">
+  <div class="ui-segmented ui-segmented--spaced" role="group" aria-label="Journée">
+    <button type="button" aria-pressed="false">Aujourd'hui<small>Faible</small></button>
+    <button type="button" aria-pressed="true">Demain<small>Volable</small></button>
+    <button type="button" aria-pressed="false">Samedi<small>Bonne journée</small></button>
+    <button type="button" aria-pressed="false" disabled>Dimanche<small>Non calculée</small></button>
+  </div>
+  <div class="ui-row">
+    {{ ui_c.segmented("modele", [("auto", "Auto"), ("arome", "AROME"), ("arpege", "ARPEGE")], "arome", label="Modèle", size="sm") }}
+    {{ ui_c.segmented("unites", [("aero", "Aéro (ft, kt)"), ("si", "SI (m, km/h)")], "aero", label="Unités", size="sm") }}
+    {{ ui_c.theme_switch() }}
+  </div>
+</div>
+
+<h3>Menu, curseur, progression</h3>
+<div class="ui-row">
+  {% call ui_c.menu("Chambéry (LFLE)", align="start") %}
+    <button type="button" class="ui-menu__item" aria-pressed="true">Chambéry (LFLE)<small>favori</small></button>
+    <button type="button" class="ui-menu__item">Saint-Auban (LFMX)<small>favori</small></button>
+    <hr class="ui-menu__sep">
+    <button type="button" class="ui-menu__item">Ma position</button>
+  {% endcall %}
+  <button type="button" class="ui-btn ui-btn--secondary ui-btn--icon" aria-label="Agrandir le graphique" onclick="document.getElementById('demo-dialog').showModal()">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H7.4l3.3 3.3-1.4 1.4L6 7.4V10H4zm16 0v6h-2V7.4l-3.3 3.3-1.4-1.4L16.6 6H14V4zM4 20v-6h2v2.6l3.3-3.3 1.4 1.4L7.4 18H10v2zm16 0h-6v-2h2.6l-3.3-3.3 1.4-1.4 3.3 3.3V14h2z"/></svg>
+  </button>
+  <span class="ui-row">Téléchargement {{ ui_c.progress("Téléchargement", 42) }} <span class="ui-muted ui-num">42 %</span></span>
+  <span class="ui-row">Préparation {{ ui_c.progress("Préparation") }}</span>
+</div>
+<div class="ui-stepper" style="margin-top: var(--ui-space-4); max-width: 40rem">
+  <button type="button" class="ui-btn ui-btn--secondary ui-btn--sm ui-btn--icon" aria-label="Heure précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg></button>
+  {{ ui_c.slider("heure", "Heure", min=0, max=8, value=4, ticks=["10", "11", "12", "13", "14", "15", "16", "17", "18"]) }}
+  <button type="button" class="ui-btn ui-btn--secondary ui-btn--sm ui-btn--icon" aria-label="Heure suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg></button>
+</div>
+
+<dialog class="ui-dialog" id="demo-dialog" aria-labelledby="demo-dialog-titre">
+  <div class="ui-dialog__head">
+    <h2 class="ui-dialog__title" id="demo-dialog-titre">Thermiques et plafonds</h2>
+    <form method="dialog"><button class="ui-btn ui-btn--ghost ui-btn--sm">Fermer</button></form>
+  </div>
+  <div class="ui-dialog__body">
+    {{ ui_c.data([("Plafond", "2 150", "m"), ("Thermique moyen", "2,4", "m/s"), ("Début", "11 h 30")]) }}
+  </div>
+</dialog>
+
+<h3>Légendes</h3>
+<div class="ui-grid">
+  {{ ui_c.legend("Thermiques", value="14 h",
+                 gradient="linear-gradient(90deg, #f7fbff, #c6dbef, #6baed6, #2171b5, #08306b)",
+                 ticks=["0", "1", "2", "3", "4 m/s"]) }}
+  {{ ui_c.legend("Niveau de la journée",
+                 items=[("Faible", "#f3c27a"), ("Volable", "#9fd3a8"), ("Bonne", "#3f9b5a"), ("Orages", "#b8475e")],
+                 note="D'après AROME, run de 06 h.") }}
+</div>
+
 <h2>Formulaire</h2>
 {% call ui_c.card() %}
   <form>
     {{ ui_c.field("terrain", "Terrain", required=True, help="Code OACI ou nom, par exemple LFLE.") }}
     {{ ui_c.field("altitude", "Altitude du terrain", type="number", error="Indique une altitude en mètres.") }}
+    <div class="ui-field">
+      <label class="ui-field__label" for="f-aerodrome">Aérodrome du TAF</label>
+      <select class="ui-input ui-select" id="f-aerodrome"><option>LFLE, Chambéry</option><option>LFLS, Grenoble</option><option>LFLB, Aix-les-Bains</option></select>
+    </div>
+    <div class="ui-field ui-row">
+      <label class="ui-check"><input type="checkbox" checked> Radar</label>
+      <label class="ui-check"><input type="checkbox"> Orages (RDT)</label>
+      <label class="ui-check"><input type="checkbox" checked> Planeurs OGN</label>
+    </div>
     {{ ui_c.field("note", "Note", type="textarea") }}
     {{ ui_c.button("Enregistrer", type="submit") }}
   </form>
