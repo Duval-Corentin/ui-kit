@@ -48,7 +48,7 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 ## Repères de la charte
 
 - Sobre et dense : panneaux plats, un seul rayon, une échelle de texte resserrée.
-- Le **magenta** (`--ui-color-active`) signale uniquement ce qui est actif : page courante, ligne sélectionnée (`<tr aria-selected="true">`), focus. Ne pas l'utiliser pour décorer.
+- Le **cyan** (`--ui-color-active`) signale uniquement ce qui est actif : page courante, ligne sélectionnée (`<tr aria-selected="true">`), focus. Ne pas l'utiliser pour décorer.
 - Valeurs chiffrées : `ui_c.data([("Plafond", "2 150", "m")])`, ou la classe `num` dans les tableaux.
 - Instruments : `ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5, zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")])` et `ui_c.wind(250, 15, gust=25)`.
 - Écrans riches : ajouter `ui-compact` sur un conteneur.

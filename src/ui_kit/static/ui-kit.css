@@ -4,9 +4,9 @@
    ou de tailles « en dur ». Un besoin manquant = une évolution de ui-kit.
 
    Parti pris : sobre et dense, pour lire beaucoup d'informations vite.
-   Une seule convention empruntée à l'avionique : le magenta signale
-   ce qui est actif ou sélectionné (page courante, ligne choisie, focus).
-   Il ne sert à rien d'autre.
+   Une seule convention empruntée à l'avionique : le cyan, couleur des valeurs
+   choisies par le pilote sur les écrans de cockpit, signale ce qui est actif
+   ou sélectionné (page courante, ligne choisie, focus). Il ne sert à rien d'autre.
    ========================================================================= */
 
 /* ---------- 0. Police ---------- */
@@ -42,8 +42,8 @@
   --ui-color-accent: #1a4386;
   --ui-color-accent-hover: #12336a;
   --ui-color-accent-text: #ffffff;
-  --ui-color-active: #8e1d60;
-  --ui-color-active-bg: #f7e6f0;
+  --ui-color-active: #005761;
+  --ui-color-active-bg: #e0f1f2;
   --ui-color-info: #1a4386;
   --ui-color-success: #235830;
   --ui-color-warning: #6b4500;
@@ -101,8 +101,8 @@
     --ui-color-accent: #a8c6f5;
     --ui-color-accent-hover: #c4d8f8;
     --ui-color-accent-text: #0f1b2d;
-    --ui-color-active: #ee9fd1;
-    --ui-color-active-bg: #3a2140;
+    --ui-color-active: #5fd0dc;
+    --ui-color-active-bg: #123a44;
     --ui-color-info: #a8c6f5;
     --ui-color-success: #93d3a0;
     --ui-color-warning: #ebc56e;
@@ -126,8 +126,8 @@
   --ui-color-accent: #a8c6f5;
   --ui-color-accent-hover: #c4d8f8;
   --ui-color-accent-text: #0f1b2d;
-  --ui-color-active: #ee9fd1;
-  --ui-color-active-bg: #3a2140;
+  --ui-color-active: #5fd0dc;
+  --ui-color-active-bg: #123a44;
   --ui-color-info: #a8c6f5;
   --ui-color-success: #93d3a0;
   --ui-color-warning: #ebc56e;
@@ -394,7 +394,7 @@ textarea.ui-input { min-height: 6rem; padding-top: var(--ui-space-2); resize: ve
 .ui-btn svg { width: 1.1em; height: 1.1em; fill: currentColor; flex-shrink: 0; }
 
 /* Onglets : <nav class="ui-tabs" role="tablist"> avec des boutons role="tab" aria-selected,
-   ou des liens aria-current="page". Onglet choisi souligné en magenta. */
+   ou des liens aria-current="page". Onglet choisi souligné en cyan. */
 .ui-tabs { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--ui-color-border); }
 .ui-tabs > button, .ui-tabs > a {
   display: flex; align-items: center; gap: var(--ui-space-2); white-space: nowrap;
@@ -470,7 +470,7 @@ textarea.ui-input { min-height: 6rem; padding-top: var(--ui-space-2); resize: ve
 .ui-menu__item small { color: var(--ui-color-muted); }
 .ui-menu__sep { height: 1px; margin: var(--ui-space-2) 0; background: var(--ui-color-border); border: 0; }
 
-/* Curseur : <input type="range" class="ui-range">, curseur magenta (valeur choisie).
+/* Curseur : <input type="range" class="ui-range">, curseur cyan (valeur choisie).
    Graduations : .ui-range__ticks sous le curseur, étiquette courante en aria-current. */
 .ui-range {
   width: 100%; height: 1.125rem; margin: 0; background: none; cursor: pointer;
