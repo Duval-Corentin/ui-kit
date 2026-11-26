@@ -2,6 +2,11 @@
 
 ## Non publié
 
+## v0.3.1
+Correctifs, constatés en habillant meteo-planeur (interface Alpine.js).
+- Les éléments `<template>` (gabarits d'Alpine, de Vue…) restent masqués et ne comptent plus comme premier ou dernier élément d'un composant. Avant, `.ui-range__ticks > *` en faisait une graduation invisible de plus, qui décalait toutes les graduations par rapport au curseur ; même défaut pour les légendes (`ui-legend__ticks`) et la bordure du dernier bouton de `ui-segmented`.
+- La longueur de ligne des paragraphes (`--ui-measure`, 70 caractères) ne s'applique plus qu'au contenu des pages (`.ui-main p`) : dans une interface d'application, un paragraphe occupe la largeur de son bloc.
+
 ## v0.3.0
 Composants d'application, pour les interfaces riches comme meteo-planeur (carte, graphiques, réglages). L'état passe par les attributs d'accessibilité (`aria-selected`, `aria-pressed`, `aria-expanded`, `aria-current`) : ils marchent avec n'importe quel JavaScript (Alpine…) comme avec des pages sans script. Aucune classe existante n'est renommée.
 - La couleur de l'élément actif (`--ui-color-active`) passe du magenta au **cyan** (`#005761` en clair, `#5fd0dc` en sombre, 7:1 de contraste au moins) : sur les écrans de cockpit, le cyan marque les valeurs choisies par le pilote, et il se distingue nettement du bleu des boutons.
