@@ -6,9 +6,10 @@
   <title>{% block title %}{{ ui.app_name }}{% endblock %}</title>
   <link rel="icon" href="{{ ui.static }}/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="{{ ui.static }}/ui-kit.css?v={{ ui.version }}">
+  <script src="{{ ui.static }}/ui-kit.js?v={{ ui.version }}"></script>
   {% block head %}{% endblock %}
 </head>
-<body class="ui-body">
+<body class="ui-body{% block body_class %}{% endblock %}">
   <a class="ui-skip" href="#contenu">Aller au contenu</a>
 
   <header class="ui-header">
@@ -24,6 +25,7 @@
           {% endfor %}
         {% endblock %}
       </nav>
+      {% block header_end %}{% endblock %}
     </div>
   </header>
 

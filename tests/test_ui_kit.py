@@ -66,6 +66,16 @@ def test_demo_page_renders_every_component(client: TestClient) -> None:
         "ui-compact",
         "ui-gauge",
         "ui-wind",
+        "ui-tabs",
+        "ui-segmented",
+        "ui-menu",
+        "ui-range",
+        "ui-legend",
+        "ui-progress",
+        "ui-check",
+        "ui-select",
+        "ui-dialog",
+        "data-ui-theme",
     )
     for css_class in components:
         assert css_class in html
@@ -122,3 +132,41 @@ def test_numbers_are_written_the_french_way(tmp_path: Path) -> None:
     html = setup(Starlette(), tmp_path, app_name="Démo", demo=False).get_template("n.html").render()
     assert "2\u202f150</span>" in html
     assert ">3\u202f500</span>" in html
+
+
+def test_full_screen_demo_uses_app_layout(client: TestClient) -> None:
+    html = client.get(ui_kit.DEMO_URL + "/plein-ecran").text
+    assert 'class="ui-body ui-body--app"' in html
+    for css_class in (
+        "ui-toolbar",
+        "ui-split",
+        "ui-fill",
+        "ui-pane",
+        "ui-overlay",
+        "ui-header__end",
+    ):
+        assert css_class in html
+    assert client.get("/_ui/ui-kit.js").status_code == 200
+    assert "/_ui/ui-kit.js?v=" in html
+
+
+def test_application_macros(tmp_path: Path) -> None:
+    (tmp_path / "app.html").write_text(
+        '{% import "ui/macros.html" as ui_c %}'
+        '{{ ui_c.tabs([("Carte", "/carte"), ("Manuel", "/manuel")], current="/manuel") }}'
+        '{{ ui_c.segmented("modele", [("arome", "AROME"), ("arpege", "ARPEGE")], "arpege") }}'
+        '{{ ui_c.slider("heure", "Heure", max=2, value=1, ticks=["10", "11", "12"]) }}'
+        '{{ ui_c.legend("Niveau", items=[("Faible", "#f3c27a")]) }}'
+        '{{ ui_c.progress("Préparation") }}',
+        encoding="utf-8",
+    )
+    html = (
+        setup(Starlette(), tmp_path, app_name="Démo", demo=False).get_template("app.html").render()
+    )
+    assert '<a href="/manuel" aria-current="page">Manuel</a>' in html
+    assert '<a href="/carte">Carte</a>' in html
+    assert 'value="arpege" checked>ARPEGE' in html
+    assert 'value="arome">AROME' in html
+    assert '<span aria-current="true">11</span>' in html
+    assert 'style="--swatch: #f3c27a"' in html
+    assert '<progress class="ui-progress" aria-label="Préparation" max="100"></progress>' in html

@@ -7,7 +7,7 @@ Charte graphique commune à toutes les applis de la plateforme : variables CSS, 
 Dans le `pyproject.toml` de l'appli (c'est déjà fait par `app-template`) :
 
 ```toml
-dependencies = ["ui-kit @ git+https://github.com/Duval-Corentin/ui-kit@v0.2.0"]
+dependencies = ["ui-kit @ git+https://github.com/Duval-Corentin/ui-kit@v0.3.0"]
 ```
 
 Le dépôt doit être **public** pour que l'installation fonctionne sans jeton, dans la CI comme dans Docker. Il ne contient que du CSS et des gabarits.
@@ -40,8 +40,9 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 ## Contenu
 
 - `static/ui-kit.css` : jetons de design (couleurs, typographie, espacements, avec thème sombre automatique) et composants `ui-*`.
-- `templates/ui/base.html` : structure de page (en-tête, navigation, contenu, pied de page). Blocs : `title`, `head`, `nav`, `flash`, `content`, `footer`, `scripts`.
-- `templates/ui/macros.html` : `button`, `card`, `alert`, `field`, `badge`, `data`, `gauge`, `wind`, `empty`.
+- `templates/ui/base.html` : structure de page (en-tête, navigation, contenu, pied de page). Blocs : `title`, `head`, `body_class`, `nav`, `header_end`, `flash`, `content`, `footer`, `scripts`.
+- `templates/ui/macros.html` : `button`, `card`, `alert`, `field`, `badge`, `data`, `gauge`, `wind`, `empty`, et pour les applications riches `tabs`, `segmented`, `menu`, `slider`, `legend`, `progress`, `theme_switch`.
+- `static/ui-kit.js` : choix du thème et fermeture des menus, sans dépendance (chargé par `ui/base.html`).
 - `static/fonts/` : police IBM Plex Sans (licence OFL).
 
 ## Repères de la charte
@@ -51,7 +52,9 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 - Valeurs chiffrées : `ui_c.data([("Plafond", "2 150", "m")])`, ou la classe `num` dans les tableaux.
 - Instruments : `ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5, zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")])` et `ui_c.wind(250, 15, gust=25)`.
 - Écrans riches : ajouter `ui-compact` sur un conteneur.
-- Thème : celui du système par défaut ; `<html data-theme="dark">` ou `"light"` pour l'imposer.
+- Thème : celui du système par défaut ; `<html data-theme="dark">` ou `"light"` pour l'imposer. La macro `theme_switch()` affiche le choix Auto / Clair / Sombre.
+- Application plein écran (carte, tableau de bord) : `{% block body_class %} ui-body--app{% endblock %}`, puis `ui-toolbar`, `ui-split` (`ui-fill` + `ui-pane`) et `ui-overlay--bottom-left` pour une légende sur la carte. Exemple complet sur `/_charte/plein-ecran`.
+- Composants pilotés en JavaScript : l'état se donne par les attributs ARIA (`aria-selected` pour un onglet, `aria-pressed` pour un choix, `aria-expanded` pour un menu, `aria-current` pour une graduation), jamais par une classe.
 
 ## Publier une nouvelle version
 

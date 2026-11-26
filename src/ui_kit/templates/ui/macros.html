@@ -100,6 +100,82 @@
   </span>
 {%- endmacro %}
 
+{# ---------- Composants d'application ---------- #}
+
+{# Onglets en liens. items : liste de (libellé, href) ; current : href de l'onglet courant.
+   Pour des onglets pilotés en JavaScript, écrire directement des <button role="tab" aria-selected>. #}
+{% macro tabs(items, current=None, label="Vues") -%}
+  <nav class="ui-tabs" aria-label="{{ label }}">
+    {%- for item in items %}
+    <a href="{{ item[1] }}"{% if item[1] == current %} aria-current="page"{% endif %}>{{ item[0] }}</a>
+    {%- endfor %}
+  </nav>
+{%- endmacro %}
+
+{# Choix exclusif par boutons radio (marche sans script, dans un formulaire).
+   options : liste de (valeur, libellé) ; size : "sm" ; spaced : boutons séparés. #}
+{% macro segmented(name, options, value=None, label=None, size=None, spaced=False) -%}
+  <div class="ui-segmented{% if size %} ui-segmented--{{ size }}{% endif %}{% if spaced %} ui-segmented--spaced{% endif %}" role="radiogroup"{% if label %} aria-label="{{ label }}"{% endif %}>
+    {%- for opt in options %}
+    <label><input type="radio" name="{{ name }}" value="{{ opt[0] }}"{% if opt[0] == value %} checked{% endif %}>{{ opt[1] }}</label>
+    {%- endfor %}
+  </div>
+{%- endmacro %}
+
+{# Menu déroulant sans script. Utilisation :
+   {% call ui_c.menu("Lieu") %}<button class="ui-menu__item">…</button>{% endcall %} #}
+{% macro menu(label, align="end") -%}
+  <details class="ui-menu">
+    <summary class="ui-menu__button">{{ label }}</summary>
+    <div class="ui-menu__panel{% if align == 'start' %} ui-menu__panel--start{% endif %}">{{ caller() }}</div>
+  </details>
+{%- endmacro %}
+
+{# Curseur avec graduations. ticks : libellés sous le curseur, un par valeur de min à max. #}
+{% macro slider(name, label, min=0, max=10, value=0, step=1, ticks=None) -%}
+  <div class="ui-stepper__track">
+    <input class="ui-range" type="range" id="f-{{ name }}" name="{{ name }}" min="{{ min }}" max="{{ max }}" step="{{ step }}" value="{{ value }}" aria-label="{{ label }}">
+    {%- if ticks %}
+    <div class="ui-range__ticks" aria-hidden="true">
+      {%- for tick in ticks %}<span{% if loop.index0 * step + min == value %} aria-current="true"{% endif %}>{{ tick }}</span>{% endfor -%}
+    </div>
+    {%- endif %}
+  </div>
+{%- endmacro %}
+
+{# Légende de carte.
+   gradient : valeur CSS de l'échelle (ex. "linear-gradient(90deg, #fff, #08306b)") avec ticks ;
+   items : liste de (libellé, couleur) pour des catégories. #}
+{% macro legend(title, gradient=None, ticks=(), items=(), value=None, note=None) -%}
+  <div class="ui-legend">
+    <div class="ui-legend__head"><span>{{ title }}</span>{% if value %}<span>{{ value }}</span>{% endif %}</div>
+    {%- if gradient %}
+    <div class="ui-legend__scale" style="background: {{ gradient }}"></div>
+    <div class="ui-legend__ticks">{% for tick in ticks %}<span>{{ tick }}</span>{% endfor %}</div>
+    {%- endif %}
+    {%- if items %}
+    <ul class="ui-legend__items">
+      {%- for item in items %}<li><i class="ui-legend__swatch" style="--swatch: {{ item[1] }}"></i>{{ item[0] }}</li>{% endfor %}
+    </ul>
+    {%- endif %}
+    {%- if note %}<p class="ui-legend__note">{{ note }}</p>{% endif %}
+  </div>
+{%- endmacro %}
+
+{# Barre de progression ; sans value, progression indéterminée. #}
+{% macro progress(label, value=None, max=100) -%}
+  <progress class="ui-progress" aria-label="{{ label }}" max="{{ max }}"{% if value is not none %} value="{{ value }}"{% endif %}></progress>
+{%- endmacro %}
+
+{# Choix du thème (auto, clair, sombre), géré par ui-kit.js et gardé dans le navigateur. #}
+{% macro theme_switch(label="Thème", auto="Auto", light="Clair", dark="Sombre") -%}
+  <div class="ui-segmented ui-segmented--sm" role="group" aria-label="{{ label }}">
+    <button type="button" data-ui-theme="auto" aria-pressed="true">{{ auto }}</button>
+    <button type="button" data-ui-theme="light" aria-pressed="false">{{ light }}</button>
+    <button type="button" data-ui-theme="dark" aria-pressed="false">{{ dark }}</button>
+  </div>
+{%- endmacro %}
+
 {# État vide : titre, explication et action facultative. #}
 {% macro empty(title, text=None, action_label=None, action_href=None) -%}
   <div class="ui-empty">

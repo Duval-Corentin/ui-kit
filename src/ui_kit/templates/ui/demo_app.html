@@ -1,0 +1,72 @@
+{% extends "ui/base.html" %}
+{% import "ui/macros.html" as ui_c %}
+{# Démonstration de la mise en page plein écran : barre de réglages, carte et panneau latéral.
+   Servie sur /_charte/plein-ecran. #}
+
+{% block title %}Plein écran · Charte · {{ ui.app_name }}{% endblock %}
+{% block body_class %} ui-body--app{% endblock %}
+
+{% block header_end %}
+  <div class="ui-header__end">
+    {% call ui_c.menu("Chambéry") %}
+      <button type="button" class="ui-menu__item" aria-pressed="true">Chambéry (LFLE)<small>favori</small></button>
+      <button type="button" class="ui-menu__item">Saint-Auban (LFMX)<small>favori</small></button>
+    {% endcall %}
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="ui-toolbar">
+  <div class="ui-segmented ui-segmented--spaced ui-segmented--sm" role="group" aria-label="Journée">
+    <button type="button" aria-pressed="false">Aujourd'hui<small>Faible</small></button>
+    <button type="button" aria-pressed="true">Demain<small>Volable</small></button>
+    <button type="button" aria-pressed="false">Samedi<small>Bonne journée</small></button>
+  </div>
+  <div class="ui-toolbar__group">
+    <span class="ui-toolbar__label">Modèle</span>
+    {{ ui_c.segmented("modele", [("auto", "Auto"), ("arome", "AROME"), ("arpege", "ARPEGE")], "arome", label="Modèle", size="sm") }}
+  </div>
+  <span class="ui-toolbar__spacer"></span>
+  <span class="ui-toolbar__group"><span class="ui-toolbar__label">AROME, run de 06 h</span>{{ ui_c.progress("Mise à jour", 70) }}</span>
+  {{ ui_c.theme_switch() }}
+</div>
+
+<div class="ui-split">
+  <div class="ui-fill" style="background: var(--ui-color-surface-2)">
+    <div class="ui-overlay ui-overlay--top-left" style="right: 0">
+      <div class="ui-legend" style="max-width: 36rem">
+        <div class="ui-stepper">
+          <button type="button" class="ui-btn ui-btn--secondary ui-btn--sm ui-btn--icon" aria-label="Heure précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg></button>
+          {{ ui_c.slider("heure", "Heure", min=0, max=8, value=4, ticks=["10", "11", "12", "13", "14", "15", "16", "17", "18"]) }}
+          <button type="button" class="ui-btn ui-btn--secondary ui-btn--sm ui-btn--icon" aria-label="Heure suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="ui-overlay ui-overlay--bottom-left">
+      {{ ui_c.legend("Thermiques", value="14 h",
+                     gradient="linear-gradient(90deg, #f7fbff, #c6dbef, #6baed6, #2171b5, #08306b)",
+                     ticks=["0", "1", "2", "3", "4 m/s"]) }}
+    </div>
+  </div>
+
+  <aside class="ui-pane ui-compact" aria-label="Détail du lieu">
+    <h2>Chambéry, demain 14 h</h2>
+    {% call ui_c.card() %}
+      {{ ui_c.data([("Plafond", "2 150", "m"), ("Thermique", "2,4", "m/s"), ("Base cumulus", "1 900", "m")]) }}
+    {% endcall %}
+    <div class="ui-stack" style="margin-top: var(--ui-space-4)">
+      {{ ui_c.gauge("Vent au sol", 18, "kt", max=40, step=5,
+                    zones=[(0, 15, "success"), (15, 25, "warning"), (25, 40, "danger")]) }}
+      {{ ui_c.gauge("Thermique moyen", 2.4, "m/s", max=5, zones=[(0, 1, "warning"), (1, 5, "success")]) }}
+    </div>
+    <table class="ui-table" style="margin-top: var(--ui-space-4)">
+      <thead><tr><th>Heure</th><th class="num">Plafond (m)</th><th>Vent</th></tr></thead>
+      <tbody>
+        <tr><td>12 h</td><td class="num">1 700</td><td>{{ ui_c.wind(240, 10) }}</td></tr>
+        <tr aria-selected="true"><td>14 h</td><td class="num">2 150</td><td>{{ ui_c.wind(250, 15) }}</td></tr>
+        <tr><td>16 h</td><td class="num">2 050</td><td>{{ ui_c.wind(260, 17) }}</td></tr>
+      </tbody>
+    </table>
+  </aside>
+</div>
+{% endblock %}
