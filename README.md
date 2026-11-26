@@ -42,7 +42,7 @@ La page **`/_charte`** de chaque appli montre tous les composants. Elle sert à 
 - `static/ui-kit.css` : jetons de design (couleurs, typographie, espacements, avec thème sombre automatique) et composants `ui-*`.
 - `templates/ui/base.html` : structure de page (en-tête, navigation, contenu, pied de page). Blocs : `title`, `head`, `nav`, `flash`, `content`, `footer`, `scripts`.
 - `templates/ui/macros.html` : `button`, `card`, `alert`, `field`, `badge`, `data`, `empty`.
-- `static/fonts/` : police Atkinson Hyperlegible Next (licence OFL).
+- `static/fonts/` : police IBM Plex Sans (licence OFL).
 
 ## Repères de la charte
 

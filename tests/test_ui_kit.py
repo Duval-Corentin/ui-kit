@@ -85,7 +85,7 @@ def test_data_macro_renders_label_value_and_unit(tmp_path: Path) -> None:
 
 
 def test_font_and_mark_are_served(client: TestClient) -> None:
-    for path in ("fonts/atkinson-hyperlegible-next.woff2", "fonts/OFL.txt", "mark.svg"):
+    for path in ("fonts/ibm-plex-sans.woff2", "fonts/OFL.txt", "mark.svg"):
         assert client.get(f"/_ui/{path}").status_code == 200, path
     css = client.get("/_ui/ui-kit.css").text
     assert '[data-theme="dark"]' in css

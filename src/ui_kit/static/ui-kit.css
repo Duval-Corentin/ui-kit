@@ -10,19 +10,19 @@
    ========================================================================= */
 
 /* ---------- 0. Police ---------- */
-/* Atkinson Hyperlegible Next (licence OFL, voir fonts/OFL.txt) : chaque
-   caractère se distingue des autres (1 l I, 0 O), utile pour des valeurs et des codes. */
+/* IBM Plex Sans (licence OFL, voir fonts/OFL.txt) : zéro sans barre mais plus étroit
+   que le O, I majuscule à empattements (distinct de l et 1), chiffres à chasse fixe. */
 @font-face {
-  font-family: "Atkinson Hyperlegible Next";
-  src: url("fonts/atkinson-hyperlegible-next.woff2") format("woff2");
-  font-weight: 200 800;
+  font-family: "IBM Plex Sans";
+  src: url("fonts/ibm-plex-sans.woff2") format("woff2");
+  font-weight: 100 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Atkinson Hyperlegible Next";
-  src: url("fonts/atkinson-hyperlegible-next-italic.woff2") format("woff2");
-  font-weight: 200 800;
+  font-family: "IBM Plex Sans";
+  src: url("fonts/ibm-plex-sans-italic.woff2") format("woff2");
+  font-weight: 100 700;
   font-style: italic;
   font-display: swap;
 }
@@ -35,26 +35,26 @@
   --ui-color-bg: #f3f5f7;
   --ui-color-surface: #ffffff;
   --ui-color-surface-2: #eef1f5;
-  --ui-color-text: #14284b;
-  --ui-color-muted: #52617a;
-  --ui-color-border: #d3dae3;
-  --ui-color-border-strong: #a9b4c3;
-  --ui-color-accent: #1f4e99;
-  --ui-color-accent-hover: #173d7a;
+  --ui-color-text: #0c1d38;
+  --ui-color-muted: #3a475c;
+  --ui-color-border: #c5ceda;
+  --ui-color-border-strong: #768397;
+  --ui-color-accent: #1a4386;
+  --ui-color-accent-hover: #12336a;
   --ui-color-accent-text: #ffffff;
-  --ui-color-active: #a3246f;
-  --ui-color-active-bg: #f8e9f2;
-  --ui-color-info: #1f4e99;
-  --ui-color-success: #2e6b3a;
-  --ui-color-warning: #8a5a00;
-  --ui-color-danger: #b3261e;
-  --ui-color-info-bg: #e8eef8;
-  --ui-color-success-bg: #e7f1e9;
-  --ui-color-warning-bg: #f8f0de;
-  --ui-color-danger-bg: #f9e8e6;
+  --ui-color-active: #8e1d60;
+  --ui-color-active-bg: #f7e6f0;
+  --ui-color-info: #1a4386;
+  --ui-color-success: #235830;
+  --ui-color-warning: #6b4500;
+  --ui-color-danger: #9c1e17;
+  --ui-color-info-bg: #e6edf8;
+  --ui-color-success-bg: #e4f0e7;
+  --ui-color-warning-bg: #f7eeda;
+  --ui-color-danger-bg: #f8e5e3;
 
   /* Typographie : échelle resserrée, adaptée aux écrans chargés */
-  --ui-font-sans: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ui-font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --ui-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --ui-text-xs: 0.8125rem;
   --ui-text-sm: 0.875rem;
@@ -93,19 +93,19 @@
     --ui-color-bg: #0f1b2d;
     --ui-color-surface: #16253a;
     --ui-color-surface-2: #1c2e46;
-    --ui-color-text: #e6ecf2;
-    --ui-color-muted: #9dacbf;
-    --ui-color-border: #2a3c55;
-    --ui-color-border-strong: #4a5f7c;
-    --ui-color-accent: #8fb4f0;
-    --ui-color-accent-hover: #b0cbf5;
+    --ui-color-text: #f1f5f9;
+    --ui-color-muted: #bac6d4;
+    --ui-color-border: #34496a;
+    --ui-color-border-strong: #6e83a1;
+    --ui-color-accent: #a8c6f5;
+    --ui-color-accent-hover: #c4d8f8;
     --ui-color-accent-text: #0f1b2d;
-    --ui-color-active: #e58ac4;
+    --ui-color-active: #ee9fd1;
     --ui-color-active-bg: #3a2140;
-    --ui-color-info: #8fb4f0;
-    --ui-color-success: #7cc48a;
-    --ui-color-warning: #e0b453;
-    --ui-color-danger: #f08a80;
+    --ui-color-info: #a8c6f5;
+    --ui-color-success: #93d3a0;
+    --ui-color-warning: #ebc56e;
+    --ui-color-danger: #f5a39a;
     --ui-color-info-bg: #1a2c4a;
     --ui-color-success-bg: #17301f;
     --ui-color-warning-bg: #33290f;
@@ -117,19 +117,19 @@
   --ui-color-bg: #0f1b2d;
   --ui-color-surface: #16253a;
   --ui-color-surface-2: #1c2e46;
-  --ui-color-text: #e6ecf2;
-  --ui-color-muted: #9dacbf;
-  --ui-color-border: #2a3c55;
-  --ui-color-border-strong: #4a5f7c;
-  --ui-color-accent: #8fb4f0;
-  --ui-color-accent-hover: #b0cbf5;
+  --ui-color-text: #f1f5f9;
+  --ui-color-muted: #bac6d4;
+  --ui-color-border: #34496a;
+  --ui-color-border-strong: #6e83a1;
+  --ui-color-accent: #a8c6f5;
+  --ui-color-accent-hover: #c4d8f8;
   --ui-color-accent-text: #0f1b2d;
-  --ui-color-active: #e58ac4;
+  --ui-color-active: #ee9fd1;
   --ui-color-active-bg: #3a2140;
-  --ui-color-info: #8fb4f0;
-  --ui-color-success: #7cc48a;
-  --ui-color-warning: #e0b453;
-  --ui-color-danger: #f08a80;
+  --ui-color-info: #a8c6f5;
+  --ui-color-success: #93d3a0;
+  --ui-color-warning: #ebc56e;
+  --ui-color-danger: #f5a39a;
   --ui-color-info-bg: #1a2c4a;
   --ui-color-success-bg: #17301f;
   --ui-color-warning-bg: #33290f;
